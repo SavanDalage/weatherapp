@@ -97,5 +97,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server działa na porcie ${port}.`);
+  console.log("Server działa na porcie " + port);
 });

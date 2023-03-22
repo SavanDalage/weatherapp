@@ -48,24 +48,26 @@ app.get("/weather", (req, res) => {
   if (!req.query.address) {
     return res.send({ error: "Musisz wprowadzić adres." });
   }
-  let location = req.query.address;
 
-  geocode(location, (error, data) => {
-    if (error) {
-      return res.send({ error });
-    }
-
-    weatherReport(data, (error, { placeFull, planceName, forecast }) => {
+  geocode(
+    req.query.address,
+    (error, { latitude, longitude, location, place_name }) => {
       if (error) {
         return res.send({ error });
       }
-      res.send({
-        forecast: forecast,
-        city: planceName,
-        exact_location: placeFull,
+
+      weatherReport(latitude, longitude, (error, forecast) => {
+        if (error) {
+          return res.send({ error });
+        }
+        res.send({
+          forecast: forecast,
+          city: location,
+          exact_location: place_name,
+        });
       });
-    });
-  });
+    }
+  );
 });
 
 app.get("/help/*", (req, res) => {
@@ -73,18 +75,6 @@ app.get("/help/*", (req, res) => {
     title: "404",
     name: "Krzysztof Kondrat",
     errorMessage: "Help article not found",
-  });
-});
-
-app.get("/products", (req, res) => {
-  if (!req.query.search) {
-    return res.send({
-      error: "You must provide a search term.",
-    });
-  }
-  console.log(req.query);
-  res.send({
-    products: [],
   });
 });
 
@@ -97,5 +87,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("Server działa na porcie " + port);
+  console.log("Server is up on port " + port);
 });

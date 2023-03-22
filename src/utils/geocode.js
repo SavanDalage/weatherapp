@@ -15,8 +15,8 @@ const geoCode = function (address, callback) {
       callback(undefined, {
         latitude: body.features[0].center[1],
         longitude: body.features[0].center[0],
-        planceName: body.features[0].text,
-        placeFull: body.features[0].place_name,
+        location: body.features[0].text,
+        place_name: body.features[0].place_name,
       });
     }
   });

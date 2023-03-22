@@ -1,9 +1,6 @@
 const request = require("request");
 
-const weatherReport = function (
-  { latitude, longitude, planceName, placeFull } = {},
-  callback
-) {
+const weatherReport = function ({ latitude, longitude }, callback) {
   const url =
     "http://api.weatherstack.com/current?access_key=c7d27b39ef54b28465b465bba6ab1c78&query=" +
     `${latitude},${longitude}` +
@@ -16,8 +13,6 @@ const weatherReport = function (
       callback(body.error.info, undefined);
     } else {
       callback(undefined, {
-        planceName,
-        placeFull,
         forecast: `Pogoda dla miasta ${planceName} na chwilę obecną: temperatura wynosi ${
           body.current.temperature
         }°C, a odczuwalna to ${
